@@ -8,6 +8,9 @@
 #
 
 library(shiny)
+library(shinydashboard)
+library(tidyverse)
+HouseData<-read_csv("../data.csv")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {

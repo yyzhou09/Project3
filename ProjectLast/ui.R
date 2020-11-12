@@ -8,26 +8,23 @@
 #
 
 library(shiny)
+library(shinydashboard)
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+dashboardPage(skin="purple",
+              #add title
+    dashboardHeader(title="ST 558 Final Project"),
+    #add tabs
+    dashboardSidebar(sidebarMenu(
+        menuItem("Information", tabName = "info", icon = icon("info")),
+        menuItem("Data Exploration", tabName = "data", icon = icon("eye")),
+        menuItem("PCA",tabName="pca", icon=icon("sitemap")),
+        menuItem("Model", tabName = "model", icon = icon("laptop")),
+        menuItem("Save File", tabName = "save", icon = icon("save"))
+    )),
+    dashboardBody()
+)
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
 
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
 
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
-        )
-    )
-))
+### Dataset: https://www.kaggle.com/arslanali4343/real-estate-dataset
