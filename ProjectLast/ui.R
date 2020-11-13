@@ -30,18 +30,18 @@ dashboardPage(skin="purple",
                        column(width=6,
                               h1("what is the data?"),
                               box(background = "purple", width = 12,
-                                  h4("This is data set is for housing values in suburbs of Boston."),
+                                  h4("This is data set is for housing values in suburbs of Boston. This data comes from ", a(href = "https://www.kaggle.com/arslanali4343/real-estate-dataset/", "kaggle"),  "- originally from the tatLib library which is maintained at Carnegie Mellon University."),
                                   h4("It includes 506 records. It has 13 continuous attributes and 1 binary attribute"),
-                                  h4("CRIM: per capita crime rate by town. "),
-                                  h4("ZN: proportion of presidential land zoned for lots over 25,000 sq.ft."),
-                                  h4("INDUS: proportion of non-retail business acres per town."),
-                                  h4("CHAS: Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)."),
-                                  h4("NOX: nitric oxides concentration (parts per 10 million)."),
-                                  h4("RM: average number of rooms per dwelling."),
-                                  h4("AGE: proportion of owner-occupied units built prior to 1940."),
-                                  h4("DIS: weighted distances to five Boston employment centres."),
-                                  h4("RAD: index of accessibility to radial highways."),
-                                  h4("TAX: full-value property-tax rate per $10,000.")
+                                  h4(strong("CRIM:")," per capita crime rate by town. "),
+                                  h4(strong("ZN:")," proportion of presidential land zoned for lots over 25,000 sq.ft."),
+                                  h4(strong("INDUS:")," proportion of non-retail business acres per town."),
+                                  h4(strong("CHAS:")," Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)."),
+                                  h4(strong("NOX:")," nitric oxides concentration (parts per 10 million)."),
+                                  h4(strong("RM:")," average number of rooms per dwelling."),
+                                  h4(strong("AGE:")," proportion of owner-occupied units built prior to 1940."),
+                                  h4(strong("DIS:")," weighted distances to five Boston employment centres."),
+                                  h4(strong("RAD:")," index of accessibility to radial highways."),
+                                  h4(strong("TAX:")," full-value property-tax rate per $10,000.")
                                   
                                   
                               )
@@ -56,7 +56,33 @@ dashboardPage(skin="purple",
                               )
                        
                    )
-                  )
+                  ),
+           #the second tab
+           tabItem(tabName = "data",
+                   fluidRow(
+                       column(width = 4,
+                              
+                              box(
+                                  title = "Variable Selection", width = NULL, solidHeader = TRUE, status = "primary",
+                                  "Box content"
+                              )
+
+                       ),
+                       
+                       column(width = 8,
+                            
+                              box(
+                                  title = "Graphic", width = NULL, solidHeader = TRUE, status = "warning",
+                                  "Box content"
+                              ),
+                              box(
+                                  title = "Table", width = NULL, solidHeader = TRUE, status = "warning",
+                                  "A box with a solid light-blue background"
+                              )
+                       ))
+                       
+               
+           )
                  
         
     )
