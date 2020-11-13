@@ -24,6 +24,7 @@ dashboardPage(skin="purple",
     )),
     dashboardBody(
         tabItems(
+         # add content for the first infomation tab
            tabItem(tabName = "info",
                    fluidRow(
                        #add two columns
@@ -47,6 +48,7 @@ dashboardPage(skin="purple",
                               )
                            
                        ),
+                       # second column
                        column(6,
                               h1("Purpose and Navigation of the App"),
                               box(background = "purple", width=12,
@@ -57,32 +59,39 @@ dashboardPage(skin="purple",
                        
                    )
                   ),
-           #the second tab
+           #the second tab for data exploration
            tabItem(tabName = "data",
                    fluidRow(
-                       column(width = 4,
+                       # first column for a dropdown list
+                       column(width = 6,
                               
                               box(
-                                  title = "Variable Selection", width = NULL, solidHeader = TRUE, status = "primary",
+                                  title = "Variable Selection for Graphic Below", width = NULL, solidHeader = TRUE, status = "primary",
+                                  selectInput("var",h3("Select One Variable From the List Below"),choices=list("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),selected = "CRIM" )),
+                              
+                              box(
+                                  title = "Graphic", width = NULL, solidHeader = TRUE, status = "primary",
                                   "Box content"
-                              )
+                              )      
 
                        ),
-                       
-                       column(width = 8,
-                            
+                       #second column for graphic and table
+                       column(width = 6,
+                            #graphic box
                               box(
-                                  title = "Graphic", width = NULL, solidHeader = TRUE, status = "warning",
-                                  "Box content"
+                                  title = "Varible Selection for the Table Below", width = NULL, solidHeader = TRUE, status = "warning",
+                                  selectInput("var2",h3("Select Variables From the List Below"),choices=list("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),selected = "CRIM", multiple = TRUE )
                               ),
+                            #table box
                               box(
                                   title = "Table", width = NULL, solidHeader = TRUE, status = "warning",
                                   "A box with a solid light-blue background"
                               )
                        ))
+           ) #second tab ends here
                        
                
-           )
+          
                  
         
     )
