@@ -13,6 +13,7 @@ library(DT)
 library(knitr)
 library(kableExtra)
 library(magrittr)
+library(png)
 
 # Define UI for application that draws a histogram
 dashboardPage(skin="purple",
@@ -76,7 +77,11 @@ dashboardPage(skin="purple",
                               box(
                                   title = "Graphic", width = NULL, solidHeader = TRUE, status = "primary",
                                   plotOutput("summaryplot")
-                              )      
+                               
+                              ),
+                              box(title="Save Plot", width = NULL, status = "primary",
+                                  downloadButton(outputId = "down", label = "Download the Plot")
+                                  )
 
                        ),
                        #second column for graphic and table
@@ -91,16 +96,16 @@ dashboardPage(skin="purple",
                                   title = "Table", width = NULL, solidHeader = TRUE, status = "warning",
                                   htmlOutput("sum")
                               )
-                       ))
-           ) #second tab ends here
+                       )
+           )) #second tab ends here
                        
                
           
                  
         
     )
-)
-)
+))
+
 
 
 
