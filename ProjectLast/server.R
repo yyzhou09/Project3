@@ -14,7 +14,7 @@ library(DT)
 library(knitr)
 library(kableExtra)
 library(magrittr)
-library(png)
+
 
 HouseData<-read_csv("../data.csv")
 

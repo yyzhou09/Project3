@@ -13,7 +13,7 @@ library(DT)
 library(knitr)
 library(kableExtra)
 library(magrittr)
-library(png)
+
 
 # Define UI for application that draws a histogram
 dashboardPage(skin="purple",
