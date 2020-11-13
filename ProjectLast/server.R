@@ -10,19 +10,30 @@
 library(shiny)
 library(shinydashboard)
 library(tidyverse)
+library(DT)
+library(knitr)
+library(kableExtra)
+library(magrittr)
+
 HouseData<-read_csv("../data.csv")
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
 
-    output$distPlot <- renderPlot({
+    output$summaryplot <- renderPlot({
+        
+        g<-ggplot(data=HouseData, aes_string(x=input$var, y="MEDV"))
+        g+geom_point()
 
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
 
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+    })
+    output$sum<-renderText({
+        var<-input$var2
+        sub<-HouseData[,var]
+        tab<-apply(sub,2,summary)
+        knitr::kable(tab,"html", digits = 1)
+       
+       
 
     })
 

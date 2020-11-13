@@ -9,6 +9,10 @@
 
 library(shiny)
 library(shinydashboard)
+library(DT)
+library(knitr)
+library(kableExtra)
+library(magrittr)
 
 # Define UI for application that draws a histogram
 dashboardPage(skin="purple",
@@ -62,22 +66,22 @@ dashboardPage(skin="purple",
            #the second tab for data exploration
            tabItem(tabName = "data",
                    fluidRow(
-                       # first column for a dropdown list
+                       # first column for athe graphic
                        column(width = 6,
-                              
+                              #box for variable selection for graphic
                               box(
                                   title = "Variable Selection for Graphic Below", width = NULL, solidHeader = TRUE, status = "primary",
                                   selectInput("var",h3("Select One Variable From the List Below"),choices=list("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),selected = "CRIM" )),
-                              
+                              #graphic box
                               box(
                                   title = "Graphic", width = NULL, solidHeader = TRUE, status = "primary",
-                                  "Box content"
+                                  plotOutput("summaryplot")
                               )      
 
                        ),
                        #second column for graphic and table
                        column(width = 6,
-                            #graphic box
+                            #box for varialbe selection for table
                               box(
                                   title = "Varible Selection for the Table Below", width = NULL, solidHeader = TRUE, status = "warning",
                                   selectInput("var2",h3("Select Variables From the List Below"),choices=list("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),selected = "CRIM", multiple = TRUE )
@@ -85,7 +89,7 @@ dashboardPage(skin="purple",
                             #table box
                               box(
                                   title = "Table", width = NULL, solidHeader = TRUE, status = "warning",
-                                  "A box with a solid light-blue background"
+                                  htmlOutput("sum")
                               )
                        ))
            ) #second tab ends here
