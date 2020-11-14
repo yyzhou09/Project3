@@ -14,7 +14,7 @@ library(DT)
 library(knitr)
 library(kableExtra)
 library(magrittr)
-
+library(plotly)
 
 HouseData<-read_csv("../data.csv")
 PCs<-prcomp(~ ., data=HouseData, na.action=na.omit, scale=TRUE)
@@ -28,8 +28,8 @@ shinyServer(function(input, output, session) {
         g+geom_point()  
     }
 
-    output$summaryplot <- renderPlot({
-        myplot()
+    output$summaryplot <- renderPlotly({
+        ggplotly(myplot())
         
     })
 
@@ -64,10 +64,12 @@ shinyServer(function(input, output, session) {
     
 output$ulplot<-renderPlot({
     if(input$RB=="PCA"){
-    biplot(PCs, cex=1, xlim=c(-0.08,0.08))}
+    biplot(PCs, cex=1, xlim=c(-0.08,0.08))
+   }
    if (input$RB=="Clustering"){
        hierCluster<-hclust(dist(data.frame(selectedData()[,1],selectedData()[,2])))
-        plot(hierCluster,xlab="")}
+        plot(hierCluster,xlab="")
+        }
     
 })
 

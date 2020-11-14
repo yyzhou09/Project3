@@ -13,6 +13,7 @@ library(DT)
 library(knitr)
 library(kableExtra)
 library(magrittr)
+library(plotly)
 
 
 # Define UI for application that draws a histogram
@@ -76,7 +77,7 @@ dashboardPage(skin="purple",
                               #graphic box
                               box(
                                   title = "Graphic", width = NULL, solidHeader = TRUE, status = "primary",
-                                  plotOutput("summaryplot")
+                                  plotlyOutput("summaryplot")                                       
                                
                               ),
                               box(title="Save Plot", width = NULL, status = "primary",
@@ -110,7 +111,12 @@ dashboardPage(skin="purple",
                               )),
                        column(6, 
                               box(title = "Unsupervise Learning Plot", width = NULL, solidHeader = TRUE, status = "warning",
-                                  plotOutput("ulplot")
+                                  plotOutput("ulplot",
+                                             click = "plot_click",
+                                             dblclick = "plot_dblclick",
+                                             hover = "plot_hover",
+                                             brush = "plot_brush"
+                                  )
                               ),
                               box(title = "Select the Method", width = NULL, solidHeader = TRUE, status = "warning",
                                   radioButtons("RB",h3("Select a Choice Below"), choices=list("PCA","Clustering"), selected="PCA"),
