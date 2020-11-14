@@ -8,4 +8,5 @@ install.package("shiny")
 install.package("shinydashboard")  
 install.package("tidyverse")  
 install.packages("kableExtra")
+install.packages("plotly")
   
