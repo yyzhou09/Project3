@@ -17,6 +17,8 @@ library(magrittr)
 
 
 HouseData<-read_csv("../data.csv")
+PCs<-prcomp(~ ., data=HouseData, na.action=na.omit, scale=TRUE)
+
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
@@ -55,5 +57,27 @@ shinyServer(function(input, output, session) {
        
 
     })
+#put selected data in a new dataframe
+    selectedData <- reactive({
+        HouseData[, c(input$x, input$y)]
+    })
+    
+output$ulplot<-renderPlot({
+    if(input$RB=="PCA"){
+    biplot(PCs, cex=1, xlim=c(-0.08,0.08))}
+   if (input$RB=="Clustering"){
+       hierCluster<-hclust(dist(data.frame(selectedData()[,1],selectedData()[,2])))
+        plot(hierCluster,xlab="")}
+    
+})
+
+output$ulresults<-renderPrint({
+    if (input$RB=="PCA"){
+     print(PCs)}
+    if (input$RB=="Clustering"){
+        hierCluster<-hclust(dist(data.frame(selectedData()[,1],selectedData()[,2])))
+    print(hierCluster)}
+    
+})
 
 })

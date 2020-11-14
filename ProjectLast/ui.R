@@ -23,7 +23,7 @@ dashboardPage(skin="purple",
     dashboardSidebar(sidebarMenu(
         menuItem("Information", tabName = "info", icon = icon("info")),
         menuItem("Data Exploration", tabName = "data", icon = icon("eye")),
-        menuItem("PCA",tabName="pca", icon=icon("sitemap")),
+        menuItem("Unsupervised Learning",tabName="UL", icon=icon("sitemap")),
         menuItem("Model", tabName = "model", icon = icon("laptop")),
         menuItem("Save File", tabName = "save", icon = icon("save"))
     )),
@@ -58,7 +58,7 @@ dashboardPage(skin="purple",
                               h1("Purpose and Navigation of the App"),
                               box(background = "purple", width=12,
                                   h4("This app is used to explore the data set in several ways, including data exploration, data modeling, using unsupervised methods (i.e., PCA) and make a subset of the data and save it."),
-                                  h4("This app has five tabs on the left. Using the tab can lead you to the page for the corresponding information. The Data Exploration tab presents summary table and graphic for the dataset. The PCA tab includes a PCA analysis for the data set. The Model tab including two supervised learning models. The Save tab allows the user to scroll through the data and save the data as a file.")
+                                  h4("This app has five tabs on the left. Using the tab can lead you to the page for the corresponding information. The Data Exploration tab presents summary table and graphic for the dataset. The Unsupervised Learning tab includes a PCA or a cluster analysis for the data set based on the user's selection. The Model tab including two supervised learning models. The Save tab allows the user to scroll through the data and save the data as a file.")
                                   )
                               )
                        
@@ -97,13 +97,35 @@ dashboardPage(skin="purple",
                                   htmlOutput("sum")
                               )
                        )
-           )) #second tab ends here
+           )),
+           #second tab ends here
                        
-               
+           # third tab for unspurvised learning
+           tabItem(tabName = "UL",
+                   fluidRow(
+                       column(6,
+                              box(title = "Results", width = NULL, solidHeader = TRUE, status = "warning",
+                                verbatimTextOutput("ulresults")
+                                  
+                              )),
+                       column(6, 
+                              box(title = "Unsupervise Learning Plot", width = NULL, solidHeader = TRUE, status = "warning",
+                                  plotOutput("ulplot")
+                              ),
+                              box(title = "Select the Method", width = NULL, solidHeader = TRUE, status = "warning",
+                                  radioButtons("RB",h3("Select a Choice Below"), choices=list("PCA","Clustering"), selected="PCA"),
+                                  conditionalPanel(condition="input.RB=='Clustering'",
+                                  selectInput("x","Select X Value", c("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"), selected="CRIM"),
+                                  selectInput("y","Select Y Value", c("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),  selected="ZN"))
+                                  )
+                                  
+                   )
+                       )
+           )
           
-                 
+       
         
-    )
+    ) #third tab ends here
 ))
 
 
