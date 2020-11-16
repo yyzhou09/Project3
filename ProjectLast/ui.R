@@ -135,6 +135,7 @@ dashboardPage(skin="purple",
     #fourth tab for supervised learning models, a tree model and a random forst model
     tabItem(tabName = "model",
             fluidRow(
+                withMathJax(),
                 
                        #box to build the model
                        box(title = "Model Selection", width = NULL, solidHeader = TRUE, status = "warning", splitLayout(
@@ -142,9 +143,11 @@ dashboardPage(skin="purple",
                            radioButtons("out","Select a Result Output", choices = list("Model Results","Prediction Results")),
                            selectInput("pre","Select Predictors", c("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT"), selected="CRIM", multiple = TRUE),
                            conditionalPanel(condition="input.models=='Tree'",
+                                            helpText("CP fomular $$R_{cp}(T)= R(T)+cp\\times|T|{\\times}R(T_1)$$ "),
                                             numericInput("cp", "complexity parameter", min=0.001, max = 1, value=0.01)
                                             ),
                            conditionalPanel(condition="input.models=='Random Forest'",
+                                            
                                             numericInput("mtry","mtry", min = 1, max=12, value=1, step = 1))
                            
     
