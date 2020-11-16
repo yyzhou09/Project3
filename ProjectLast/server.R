@@ -25,7 +25,7 @@ PCs<-prcomp(~ ., data=HouseData, na.action=na.omit, scale=TRUE)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
-    
+#create a plot for summary
     myplot<-function(){
         g<-ggplot(data=HouseData, aes_string(x=input$var, y="MEDV"))
         g+geom_point()  
@@ -35,7 +35,7 @@ shinyServer(function(input, output, session) {
         ggplotly(myplot())
         
     })
-
+#add  function to save the picture
     output$down <- downloadHandler(
         filename =  function() {
             paste0(input$var, ".png")
@@ -50,7 +50,7 @@ shinyServer(function(input, output, session) {
         }, 
         contentType = 'image/png'
     )
-    
+   #prient the summary results for selected variables 
     output$sum<-renderText({
         var<-input$var2
         sub<-HouseData[,var]
@@ -64,7 +64,7 @@ shinyServer(function(input, output, session) {
     selectedData <- reactive({
         HouseData[, c(input$x, input$y)]
     })
-    
+ #create plot for unsupervise ldearing models   
 output$ulplot<-renderPlot({
     if(input$RB=="PCA"){
     biplot(PCs, cex=1, xlim=c(-0.08,0.08))
@@ -76,6 +76,7 @@ output$ulplot<-renderPlot({
     
 })
 
+#print unsuprvised learning results
 output$ulresults<-renderPrint({
     if (input$RB=="PCA"){
      print(PCs)}
@@ -90,6 +91,7 @@ selectedData2 <- reactive({
     HouseData[, c("MEDV",input$pre)]
 })
 
+#create a data frame for predictors, which are entered by users
 predData<-reactive({
     data<-data.frame(CRIM=input$CRIM,
                ZN=input$ZN,
@@ -106,26 +108,32 @@ predData<-reactive({
                LSTAT=input$LSTAT)
 })
 
+#only select predictors that users select for the model
 predData2<-reactive({
     predData()%>% select(input$pre)
 })
 
+#create a tree model
 tree<-reactive({
     train(MEDV ~., data=selectedData2(), method="rpart", trControl=trainControl(method="cv", number = 10), preProcess=c("center","scale"), tuneGrid=data.frame(cp=input$cp))
 })
 
+#create a random forest model
 rf<-reactive({
     train(MEDV ~., data=selectedData2(), method="rf", trControl=trainControl(method="cv", number = 10), preProcess=c("center","scale"), tuneGrid=data.frame(mtry=input$mtry))
 })
 
+#prediction using tree model
 tree_pred<-reactive({
     predict(tree(), predData2())
 })
 
+#preidction using randome forest model
 rf_pred<-reactive({
     predict(rf(), predData2())
 })
 
+# preint out results based on users input
 output$results <-renderPrint({
     set.seed(101)
     if (input$models=="Tree"){

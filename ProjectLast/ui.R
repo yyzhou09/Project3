@@ -61,7 +61,7 @@ dashboardPage(skin="purple",
                               h1("Purpose and Navigation of the App"),
                               box(background = "purple", width=12,
                                   h4("This app is used to explore the data set in several ways, including data exploration, data modeling, using unsupervised methods (i.e., PCA) and make a subset of the data and save it."),
-                                  h4("This app has five tabs on the left. Using the tab can lead you to the page for the corresponding information. The Data Exploration tab presents summary table and graphic for the dataset. The Unsupervised Learning tab includes a PCA or a cluster analysis for the data set based on the user's selection. The Model tab including two supervised learning models. The Save tab allows the user to scroll through the data and save the data as a file.")
+                                  h4("This app has five tabs on the left. Using the tab can lead you to the page for the corresponding information. The Data Exploration tab presents summary table and graphic for the dataset. The Unsupervised Learning tab includes a PCA or a cluster analysis for the data set based on the user's selection. The Model tab including two supervised learning models. The users can select if they want to use the Tree Prediction Model or the Random Forest Model. They can also select tuning paramters and variables they want to use to predict the MEDV value. They can choose the output (model results vs. prediction results). The Save tab allows the user to scroll through the data and save the data as a file.")
                                   )
                               )
                        
@@ -135,8 +135,9 @@ dashboardPage(skin="purple",
     #fourth tab for supervised learning models, a tree model and a random forst model
     tabItem(tabName = "model",
             fluidRow(
-                column(6, 
-                       box(title = "Model Selection", width = NULL, solidHeader = TRUE, status = "warning",
+                
+                       #box to build the model
+                       box(title = "Model Selection", width = NULL, solidHeader = TRUE, status = "warning", splitLayout(
                            radioButtons("models","Select a Model", choices = list("Tree", "Random Forest"), selected = "Tree"),
                            radioButtons("out","Select a Result Output", choices = list("Model Results","Prediction Results")),
                            selectInput("pre","Select Predictors", c("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT"), selected="CRIM", multiple = TRUE),
@@ -147,11 +148,12 @@ dashboardPage(skin="purple",
                                             numericInput("mtry","mtry", min = 1, max=12, value=1, step = 1))
                            
     
-                       )
+                       )),
                        
-                       ),
-                column(6,
-                       box(title="Enter Predictor Values", width = NULL, solidHeader = TRUE, status = "primary",
+                      
+                
+                       #box to enter predictors values
+                       box(title="Enter Predictor Values", width = NULL, solidHeader = TRUE, status = "primary",splitLayout(
                            numericInput("CRIM","CRIM",0),
                            numericInput("ZN","ZN",0),
                            numericInput("INDUS","INDUS",0),
@@ -166,12 +168,13 @@ dashboardPage(skin="purple",
                            numericInput("B","B",0),
                            numericInput("LSTAT","LSTAT",0)
                            
-                           ),
+                       )),
+                       #box to print results for model or prediction
                        box(title="Results", width = NULL, solidHeader = TRUE, status="primary",
                            verbatimTextOutput("results")
                            
                        ))
-            )) #forth teb ends here
+            ) #forth teb ends here
     
 )))
 
