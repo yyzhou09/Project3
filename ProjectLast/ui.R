@@ -19,7 +19,7 @@ library(rpart)
 library(randomForest)
 
 # Define UI for application that draws a histogram
-dashboardPage(skin="purple",
+dashboardPage(skin="blue",
               #add title
     dashboardHeader(title="ST 558 Final Project"),
     #add tabs
@@ -38,7 +38,7 @@ dashboardPage(skin="purple",
                        #add two columns
                        column(width=6,
                               h1("what is the data?"),
-                              box(background = "purple", width = 12,
+                              box(background = "blue", width = 12,
                                   h4("This is data set is for housing values in suburbs of Boston. This data comes from ", a(href = "https://www.kaggle.com/arslanali4343/real-estate-dataset/", "kaggle"),  "- originally from the tatLib library which is maintained at Carnegie Mellon University."),
                                   h4("It includes 506 records. It has 13 continuous attributes and 1 binary attribute"),
                                   h4(strong("CRIM:")," per capita crime rate by town. "),
@@ -59,9 +59,14 @@ dashboardPage(skin="purple",
                        # second column
                        column(6,
                               h1("Purpose and Navigation of the App"),
-                              box(background = "purple", width=12,
+                              box(background = "blue", width=12,
                                   h4("This app is used to explore the data set in several ways, including data exploration, data modeling, using unsupervised methods (i.e., PCA) and make a subset of the data and save it."),
-                                  h4("This app has five tabs on the left. Using the tab can lead you to the page for the corresponding information. The Data Exploration tab presents summary table and graphic for the dataset. The Unsupervised Learning tab includes a PCA or a cluster analysis for the data set based on the user's selection. The Model tab including two supervised learning models. The users can select if they want to use the Tree Prediction Model or the Random Forest Model. They can also select tuning paramters and variables they want to use to predict the MEDV value. They can choose the output (model results vs. prediction results). The Save tab allows the user to scroll through the data and save the data as a file.")
+                                  h4("This page is the information page"),
+                                  h4("This app has five tabs on the left. Using the tab can lead you to the page for the corresponding information."),
+                                  h4("The Data Exploration tab presents summary table and graphic for the dataset."),
+                                  h4("The Unsupervised Learning tab includes a PCA or a cluster analysis for the data set based on the user's selection."),
+                                  h4("The Model tab including two supervised learning models. The users can select if they want to use the Tree Prediction Model or the Random Forest Model. They can also select tuning paramters and variables they want to use to predict the MEDV value. They can choose the output (model results vs. prediction results)."),
+                                  h4("The Save tab allows the user to scroll through the data and save the data as a file.")
                                   )
                               )
                        
@@ -177,7 +182,14 @@ dashboardPage(skin="purple",
                            verbatimTextOutput("results")
                            
                        ))
-            ) #forth teb ends here
+            ), #forth teb ends here
+    tabItem(tabName = "save",
+            fluidRow(
+                box(title = "Subset Data and Save", width = NULL, solidHeader =TRUE, status="primary", 
+                    "content"
+                    
+                )
+            ))
     
 )))
 
