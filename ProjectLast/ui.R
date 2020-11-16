@@ -14,7 +14,9 @@ library(knitr)
 library(kableExtra)
 library(magrittr)
 library(plotly)
-
+library(caret)
+library(rpart)
+library(randomForest)
 
 # Define UI for application that draws a histogram
 dashboardPage(skin="purple",
@@ -127,12 +129,51 @@ dashboardPage(skin="purple",
                                   
                    )
                        )
-           )
+           ),
           
-       
-        
-    ) #third tab ends here
-))
+        #third tab ends here
+    #fourth tab for supervised learning models, a tree model and a random forst model
+    tabItem(tabName = "model",
+            fluidRow(
+                column(6, 
+                       box(title = "Model Selection", width = NULL, solidHeader = TRUE, status = "warning",
+                           radioButtons("models","Select a Model", choices = list("Tree", "Random Forest"), selected = "Tree"),
+                           radioButtons("out","Select a Result Output", choices = list("Model Results","Prediction Results")),
+                           selectInput("pre","Select Predictors", c("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT"), selected="CRIM", multiple = TRUE),
+                           conditionalPanel(condition="input.models=='Tree'",
+                                            numericInput("cp", "complexity parameter", min=0.001, max = 1, value=0.01)
+                                            ),
+                           conditionalPanel(condition="input.models=='Random Forest'",
+                                            numericInput("mtry","mtry", min = 1, max=12, value=1, step = 1))
+                           
+    
+                       )
+                       
+                       ),
+                column(6,
+                       box(title="Enter Predictor Values", width = NULL, solidHeader = TRUE, status = "primary",
+                           numericInput("CRIM","CRIM",0),
+                           numericInput("ZN","ZN",0),
+                           numericInput("INDUS","INDUS",0),
+                           numericInput("CHAS","CHAS 0 or 1", 0, min = 0, max=1, step =1),
+                           numericInput("NOX", "NOX", 0),
+                           numericInput("RM","RM",0),
+                           numericInput("AGE","AGE", 0),
+                           numericInput("DIS","DIS",0),
+                           numericInput("RAD", "RAD",0),
+                           numericInput("TAX", "TAX",0),
+                           numericInput("PTRATIO", "PTRATIO",0),
+                           numericInput("B","B",0),
+                           numericInput("LSTAT","LSTAT",0)
+                           
+                           ),
+                       box(title="Results", width = NULL, solidHeader = TRUE, status="primary",
+                           verbatimTextOutput("results")
+                           
+                       ))
+            )) #forth teb ends here
+    
+)))
 
 
 

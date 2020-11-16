@@ -15,8 +15,11 @@ library(knitr)
 library(kableExtra)
 library(magrittr)
 library(plotly)
+library(caret)
+library(randomForest)
 
 HouseData<-read_csv("../data.csv")
+HouseData<-na.omit(HouseData)
 PCs<-prcomp(~ ., data=HouseData, na.action=na.omit, scale=TRUE)
 
 
@@ -57,7 +60,7 @@ shinyServer(function(input, output, session) {
        
 
     })
-#put selected data in a new dataframe
+#put selected data in a new dataframe for the unspervised models
     selectedData <- reactive({
         HouseData[, c(input$x, input$y)]
     })
@@ -81,5 +84,69 @@ output$ulresults<-renderPrint({
     print(hierCluster)}
     
 })
+
+#create a dataframe for supervised learning
+selectedData2 <- reactive({
+    HouseData[, c("MEDV",input$pre)]
+})
+
+predData<-reactive({
+    data<-data.frame(CRIM=input$CRIM,
+               ZN=input$ZN,
+               INDUS=input$INDUS,
+               CHAS=input$CHAS,
+               NOX=input$NOX,
+               RM=input$RM,
+               AGE=input$AGE,
+               DIS=input$DIS,
+               RAD=input$RAD,
+               TAX=input$TAX,
+               PTRATIO=input$PTRATIO,
+               B=input$B,
+               LSTAT=input$LSTAT)
+})
+
+predData2<-reactive({
+    predData()%>% select(input$pre)
+})
+
+tree<-reactive({
+    train(MEDV ~., data=selectedData2(), method="rpart", trControl=trainControl(method="cv", number = 10), preProcess=c("center","scale"), tuneGrid=data.frame(cp=input$cp))
+})
+
+rf<-reactive({
+    train(MEDV ~., data=selectedData2(), method="rf", trControl=trainControl(method="cv", number = 10), preProcess=c("center","scale"), tuneGrid=data.frame(mtry=input$mtry))
+})
+
+tree_pred<-reactive({
+    predict(tree(), predData2())
+})
+
+rf_pred<-reactive({
+    predict(rf(), predData2())
+})
+
+output$results <-renderPrint({
+    set.seed(101)
+    if (input$models=="Tree"){
+        
+        if(input$out=="Model Results"){
+        print(tree())}
+        if(input$out=="Prediction Results") {
+            print(tree_pred())
+        }
+    }
+    else {
+       
+        if(input$out=="Model Results"){
+           print(rf()) 
+        } else {
+            print(rf_pred())
+        }
+        
+    }
+})
+
+
 
 })
