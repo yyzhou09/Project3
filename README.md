@@ -4,9 +4,9 @@
 shiny::runGitHub("Project3", "yyzhou09", subdir = "ProjectLast/")
 
 ## Package List
-install.package("shiny")  
-install.package("shinydashboard")  
-install.package("tidyverse")  
+install.packages("shiny")  
+install.packages("shinydashboard")  
+install.packages("tidyverse")  
 install.packages("kableExtra")  
 install.packages("plotly")  
 install.packages("caret")
