@@ -94,7 +94,7 @@ dashboardPage(skin="blue",
                        ),
                        #second column for graphic and table
                        column(width = 6,
-                            #box for varialbe selection for table
+                            #box for variable selection for table
                               box(
                                   title = "Varible Selection for the Table Below", width = NULL, solidHeader = TRUE, status = "warning",
                                   selectInput("var2",h3("Select Variables From the List Below"),choices=list("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),selected = "CRIM", multiple = TRUE )
@@ -182,14 +182,17 @@ dashboardPage(skin="blue",
                            verbatimTextOutput("results")
                            
                        ))
-            ), #forth teb ends here
+            ), #forth tab ends here
     tabItem(tabName = "save",
             fluidRow(
                 box(title = "Subset Data and Save", width = NULL, solidHeader =TRUE, status="primary", 
-                    "content"
-                    
+                    selectInput("set",h3("Select Variables From the List Below"),choices=list("CRIM","ZN","INDUS","NOX","RM","AGE","DIS","RAD","TAX","PTRATIO","B","LSTAT","MEDV"),selected = "CRIM", multiple = TRUE) ,
+                    #print out table
+                    DT::dataTableOutput("datatb"),
+                    #download button
+                    downloadButton("downloadData", "Download")
                 )
-            ))
+            )) #the end of the firth tab
     
 )))
 

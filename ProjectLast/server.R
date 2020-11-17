@@ -128,12 +128,12 @@ tree_pred<-reactive({
     predict(tree(), predData2())
 })
 
-#preidction using randome forest model
+#prediction using random forest model
 rf_pred<-reactive({
     predict(rf(), predData2())
 })
 
-# preint out results based on users input
+# print out results based on users input
 output$results <-renderPrint({
     set.seed(101)
     if (input$models=="Tree"){
@@ -155,6 +155,23 @@ output$results <-renderPrint({
     }
 })
 
+#create a data frame to be print out
+datasetInput<-reactive({
+    HouseData[,input$set]
+})
+#for the fifth tab data table
+output$datatb<-DT::renderDataTable({
+    datasetInput()
+})
 
+#for download csv file
+output$downloadData <- downloadHandler(
+    filename = function() {
+        paste(input$set, ".csv", sep = "")
+    },
+    content = function(file) {
+        write.csv(datasetInput(), file, row.names = FALSE)
+    }
+)
 
 })
